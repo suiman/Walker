@@ -3,6 +3,7 @@
 namespace Walker\Http;
 
 use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\StreamInterface;
 
 class Message implements MessageInterface
 {
