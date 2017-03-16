@@ -15,46 +15,87 @@ class Message implements MessageInterface
 
 
     public function getProtocolVersion() {
-        // TODO: Implement getProtocolVersion() method.
+        return $this->protocolVersion;
     }
 
     public function withProtocolVersion($version) {
-        // TODO: Implement withProtocolVersion() method.
+        $clone = clone $this;
+        $clone->protocolVersion = $version;
+        return $clone;
     }
 
     public function getHeaders() {
-        // TODO: Implement getHeaders() method.
+        return $this->headers;
     }
 
     public function hasHeader($name) {
-        // TODO: Implement hasHeader() method.
+        foreach ($this->headers as $header_name => $values) {
+            if (strtolower($header_name) === strtolower($name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getHeader($name) {
-        // TODO: Implement getHeader() method.
+        foreach ($this->headers as $header_name => $values) {
+            if (strtolower($header_name) === strtolower($name)) {
+                return $this->headers[$header_name];
+            }
+        }
+        return array();
     }
 
     public function getHeaderLine($name) {
-        // TODO: Implement getHeaderLine() method.
+        return implode(',', $this->getHeader($name));
     }
 
     public function withHeader($name, $value) {
-        // TODO: Implement withHeader() method.
+        $clone = clone $this;
+        if ($this->hasHeader($name)) {
+            foreach ($clone->headers as $header_name => $values) {
+                if (strtolower($header_name) === strtolower($name)) {
+                    $clone->headers[$header_name] = $value;
+                }
+            }
+        } else {
+            $clone->headers[$name] = $value;
+        }
+        return $clone;
     }
 
     public function withAddedHeader($name, $value) {
-        // TODO: Implement withAddedHeader() method.
+        $clone = clone $this;
+        if ($this->hasHeader($name)) {
+            foreach ($clone->headers as $header_name => $values) {
+                if (strtolower($header_name) === strtolower($name)) {
+                    $values[] = $value;
+                    $clone->headers[$header_name] = $values;
+                }
+            }
+        } else {
+            $clone->headers[$name] = $value;
+        }
+        return $clone;
     }
 
     public function withoutHeader($name) {
-        // TODO: Implement withoutHeader() method.
+        $clone = clone $this;
+        foreach ($clone->headers as $header_name => $values) {
+            if (strtolower($header_name) === strtolower($name)) {
+                unset($clone->headers[$header_name]);
+            }
+        }
+        return $clone;
     }
 
     public function getBody() {
-        // TODO: Implement getBody() method.
+        return $this->body;
     }
 
-    public function withBody(\Psr\Http\Message\StreamInterface $body) {
-        // TODO: Implement withBody() method.
+    public function withBody(StreamInterface $body) {
+        $clone = clone $this;
+        $clone->body = $body;
+        return $clone;
     }
 }

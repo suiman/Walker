@@ -26,68 +26,96 @@ class Uri implements UriInterface
 
     protected $query = '';
 
+    protected $fragment = '';
+
+    public function __construct(Environment $environment) {
+        $this->host = $environment->get('HTTP_HOST');
+        $request_uri = $environment->get('REQUEST_URI');
+        $this->scheme = parse_url($request_uri, PHP_URL_SCHEME);
+        $this->authority = parse_url($request_uri, PHP_URL_PASS);
+        $this->userinfo = parse_url($request_uri, PHP_URL_USER);
+        $this->port = parse_url($request_uri, PHP_URL_PORT);
+        $this->path = parse_url($request_uri, PHP_URL_PATH);
+        $this->query = parse_url($request_uri, PHP_URL_QUERY);
+        $this->fragment = parse_url($request_uri, PHP_URL_FRAGMENT);
+    }
+
     public function getScheme() {
-        // TODO: Implement getScheme() method.
+        return $this->scheme;
     }
 
     public function getAuthority() {
-        // TODO: Implement getAuthority() method.
+        return $this->authority;
     }
 
     public function getUserInfo() {
-        // TODO: Implement getUserInfo() method.
+        return $this->userinfo;
     }
 
     public function getHost() {
-        // TODO: Implement getHost() method.
+        return $this->host;
     }
 
     public function getPort() {
-        // TODO: Implement getPort() method.
+        return $this->port;
     }
 
     public function getPath() {
-        // TODO: Implement getPath() method.
+        return $this->path;
     }
 
     public function getQuery() {
-        // TODO: Implement getQuery() method.
+        return $this->query;
     }
 
     public function getFragment() {
-        // TODO: Implement getFragment() method.
+        return $this->fragment;
     }
 
     public function withScheme($scheme) {
-        // TODO: Implement withScheme() method.
+        $clone = clone $this;
+        $clone->scheme = $scheme;
+        return $clone;
     }
 
     public function withUserInfo($user, $password = null) {
-        // TODO: Implement withUserInfo() method.
+        $clone = clone $this;
+        $clone->userinfo = $user;
+        return $clone;
     }
 
     public function withHost($host) {
-        // TODO: Implement withHost() method.
+        $clone = clone $this;
+        $clone->host = $host;
+        return $clone;
     }
 
     public function withPort($port) {
-        // TODO: Implement withPort() method.
+        $clone = clone $this;
+        $clone->port = $port;
+        return $clone;
     }
 
     public function withPath($path) {
-        // TODO: Implement withPath() method.
+        $clone = clone $this;
+        $clone->path = $path;
+        return $clone;
     }
 
     public function withQuery($query) {
-        // TODO: Implement withQuery() method.
+        $clone = clone $this;
+        $clone->query = $query;
+        return $clone;
     }
 
     public function withFragment($fragment) {
-        // TODO: Implement withFragment() method.
+        $clone = clone $this;
+        $clone->fragment = $fragment;
+        return $clone;
     }
 
     public function __toString() {
-        // TODO: Implement __toString() method.
+
     }
 
 
