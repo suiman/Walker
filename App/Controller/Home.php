@@ -25,4 +25,9 @@ class Home extends Base
         print_r($user);
     }
 
+    public function index()
+    {
+        echo "from home, i am here\n";
+    }
+
 }
