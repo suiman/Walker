@@ -30,9 +30,4 @@ class Home extends Base
         echo "from home, i am here\n";
     }
 
-    public function error()
-    {
-        echo "error\n";
-    }
-
 }
