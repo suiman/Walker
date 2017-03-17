@@ -7,15 +7,18 @@ use Walker\Http\Message;
 
 class Response extends Message implements ResponseInterface
 {
-    public function getStatusCode() {
+    public function getStatusCode()
+    {
         // TODO: Implement getStatusCode() method.
     }
 
-    public function withStatus($code, $reasonPhrase = '') {
+    public function withStatus($code, $reasonPhrase = '')
+    {
         // TODO: Implement withStatus() method.
     }
 
-    public function getReasonPhrase() {
+    public function getReasonPhrase()
+    {
         // TODO: Implement getReasonPhrase() method.
     }
 

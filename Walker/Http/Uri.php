@@ -115,7 +115,7 @@ class Uri implements UriInterface
     }
 
     public function __toString() {
-
+        return sprintf('%s%s?%s', $this->host, $this->path, $this->query);
     }
 
 

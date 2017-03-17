@@ -27,7 +27,8 @@ class Request extends Message implements ServerRequestInterface
     protected $attributes;
 
 
-    public function __construct(Environment $environment) {
+    public function __construct(Environment $environment)
+    {
         $this->requestTarget = ''; //todo
         $this->method = $environment->get('REQUEST_METHOD');
         $this->uri = new Uri($environment);
@@ -39,71 +40,88 @@ class Request extends Message implements ServerRequestInterface
         $this->attributes = array(); //todo
     }
 
-    public function getRequestTarget() {
+    public function getRequestTarget()
+    {
         return $this->requestTarget;
     }
 
-    public function withRequestTarget($requestTarget) {
+    public function withRequestTarget($requestTarget)
+    {
         // TODO: Implement withRequestTarget() method.
     }
 
-    public function getMethod() {
+    public function getMethod()
+    {
         return $this->method;
     }
 
-    public function withMethod($method) {
+    public function withMethod($method)
+    {
         // TODO: Implement withMethod() method.
     }
 
-    public function getUri() {
+    public function getUri()
+    {
         return $this->uri;
     }
 
-    public function withUri(UriInterface $uri, $preserveHost = false) {
+    public function withUri(UriInterface $uri, $preserveHost = false)
+    {
         // TODO: Implement withUri() method.
     }
 
-    public function getServerParams() {
+    public function getServerParams()
+    {
         return $this->serverParams;
     }
 
-    public function getCookieParams() {
+    public function getCookieParams()
+    {
         return $this->cookieParams;
     }
 
-    public function withCookieParams(array $cookies) {
+    public function withCookieParams(array $cookies)
+    {
         // TODO: Implement withCookieParams() method.
     }
 
-    public function getQueryParams() {
+    public function getQueryParams()
+    {
         return $this->queryParams;
     }
 
-    public function withQueryParams(array $query) {
+    public function withQueryParams(array $query)
+    {
         // TODO: Implement withQueryParams() method.
     }
 
-    public function getUploadedFiles() {
+    public function getUploadedFiles()
+    {
         return $this->uploadFiles;
     }
 
-    public function withUploadedFiles(array $uploadedFiles) {
+    public function withUploadedFiles(array $uploadedFiles)
+    {
         // TODO: Implement withUploadedFiles() method.
     }
 
-    public function getParsedBody() {
+    public function getParsedBody()
+    {
         return $this->parsedBody;
     }
 
-    public function withParsedBody($data) {
+    public function withParsedBody($data)
+    {
         // TODO: Implement withParsedBody() method.
     }
 
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->attributes;
     }
 
-    public function getAttribute($name, $default = null) {
+    public function getAttribute($name, $default = null)
+    {
         if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         } else {
@@ -111,11 +129,13 @@ class Request extends Message implements ServerRequestInterface
         }
     }
 
-    public function withAttribute($name, $value) {
+    public function withAttribute($name, $value)
+    {
         // TODO: Implement withAttribute() method.
     }
 
-    public function withoutAttribute($name) {
+    public function withoutAttribute($name)
+    {
         // TODO: Implement withoutAttribute() method.
     }
 

@@ -16,21 +16,43 @@ class Walker
 
     protected $response;
 
-    public function init() {
+    public function init()
+    {
         $this->environment = new Environment($_SERVER);
         $this->request = new Request($this->environment);
         $this->response = new Response();
     }
 
-    public function run() {
+    public function run()
+    {
         $this->process($this->request, $this->response);
     }
 
-    public function process(RequestInterface $request, ResponseInterface $response) {
+    public function process(RequestInterface $request, ResponseInterface $response)
+    {
+        $result = $this->dispatch($request);
+        if (count($result) < 2) {
+            $result = array('Base', 'index');
+        }
+        list($controller_name, $action_name) = $result;
+        $controller_name = 'App\\Controller\\' . ucfirst($controller_name);
+        $action_name = lcfirst($action_name);
+        if (!class_exists($controller_name)) {
+            $controller_name = 'App\\Controller\\Base';
+        }
+        $controller = new $controller_name($request, $response);
+        if (!is_callable(array($controller, $action_name))) {
+            $action_name = 'index';
+        }
+        $callable = array($controller, $action_name);
+        call_user_func($callable);
+    }
+
+    public function dispatch(RequestInterface $request)
+    {
         $uri = $request->getUri();
         $path = $uri->getPath();
-        echo $path;
-
+        return explode('/', ltrim($path, '/'));
     }
 
 

@@ -8,8 +8,24 @@
 
 namespace App\Controller;
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class Base
 {
+    protected $request;
+
+    protected $response;
+
+    public function __construct(RequestInterface $request, ResponseInterface $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
+    }
+
+    public function index()
+    {
+        echo "^_^\n";
+    }
 
 }

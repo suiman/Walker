@@ -11,7 +11,8 @@ namespace App\Model;
 
 class User extends Base
 {
-    public function getUser() {
+    public function getUser()
+    {
         $user = array(
             'name' => 'white',
             'age' => '23'

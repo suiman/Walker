@@ -12,7 +12,14 @@ use App\Model;
 
 class Home extends Base
 {
-    public function test() {
+    public function pong()
+    {
+        echo (string)$this->request->getUri() . "\n";
+    }
+
+
+    public function user()
+    {
         $userMod = new Model\User();
         $user = $userMod->getUser();
         print_r($user);

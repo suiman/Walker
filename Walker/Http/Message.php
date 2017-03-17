@@ -14,21 +14,25 @@ class Message implements MessageInterface
     protected $protocolVersion;
 
 
-    public function getProtocolVersion() {
+    public function getProtocolVersion()
+    {
         return $this->protocolVersion;
     }
 
-    public function withProtocolVersion($version) {
+    public function withProtocolVersion($version)
+    {
         $clone = clone $this;
         $clone->protocolVersion = $version;
         return $clone;
     }
 
-    public function getHeaders() {
+    public function getHeaders()
+    {
         return $this->headers;
     }
 
-    public function hasHeader($name) {
+    public function hasHeader($name)
+    {
         foreach ($this->headers as $header_name => $values) {
             if (strtolower($header_name) === strtolower($name)) {
                 return true;
@@ -37,7 +41,8 @@ class Message implements MessageInterface
         return false;
     }
 
-    public function getHeader($name) {
+    public function getHeader($name)
+    {
         foreach ($this->headers as $header_name => $values) {
             if (strtolower($header_name) === strtolower($name)) {
                 return $this->headers[$header_name];
@@ -46,11 +51,13 @@ class Message implements MessageInterface
         return array();
     }
 
-    public function getHeaderLine($name) {
+    public function getHeaderLine($name)
+    {
         return implode(',', $this->getHeader($name));
     }
 
-    public function withHeader($name, $value) {
+    public function withHeader($name, $value)
+    {
         $clone = clone $this;
         if ($this->hasHeader($name)) {
             foreach ($clone->headers as $header_name => $values) {
@@ -64,7 +71,8 @@ class Message implements MessageInterface
         return $clone;
     }
 
-    public function withAddedHeader($name, $value) {
+    public function withAddedHeader($name, $value)
+    {
         $clone = clone $this;
         if ($this->hasHeader($name)) {
             foreach ($clone->headers as $header_name => $values) {
@@ -79,7 +87,8 @@ class Message implements MessageInterface
         return $clone;
     }
 
-    public function withoutHeader($name) {
+    public function withoutHeader($name)
+    {
         $clone = clone $this;
         foreach ($clone->headers as $header_name => $values) {
             if (strtolower($header_name) === strtolower($name)) {
@@ -89,11 +98,13 @@ class Message implements MessageInterface
         return $clone;
     }
 
-    public function getBody() {
+    public function getBody()
+    {
         return $this->body;
     }
 
-    public function withBody(StreamInterface $body) {
+    public function withBody(StreamInterface $body)
+    {
         $clone = clone $this;
         $clone->body = $body;
         return $clone;
