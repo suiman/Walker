@@ -8,7 +8,7 @@ use Walker\Http\Environment;
 use Walker\Http\Request;
 use Walker\Http\Response;
 
-class App
+class Walker
 {
     protected $environment;
 

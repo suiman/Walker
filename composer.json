@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Walker\\": "Walker"
+            "Walker\\": "Walker",
+            "App\\": "App"
         }
     }
 

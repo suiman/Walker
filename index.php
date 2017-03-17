@@ -1,10 +1,11 @@
 <?php
 require "vendor/autoload.php";
 
-$app = new Walker\App();
-$app->init();
-$app->run();
+use App\Controller;
 
+$walker = new Walker\Walker();
+$walker->init();
 
-
+$callable = array(new Controller\Home(), 'test');
+call_user_func($callable);
 
