@@ -23,6 +23,9 @@ class Base
         $this->response = $response;
     }
 
+    /**
+     * set default action
+     */
     public function index()
     {
         echo "^_^\n";
