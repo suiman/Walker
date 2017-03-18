@@ -11,7 +11,7 @@ namespace App\Controller;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class Base
+class Base implements ControllerInterface
 {
     protected $request;
 
@@ -23,12 +23,22 @@ class Base
         $this->response = $response;
     }
 
+    public function before()
+    {
+
+    }
+
     /**
      * set default action
      */
     public function index()
     {
         echo "^_^\n";
+    }
+
+    public function after()
+    {
+
     }
 
 }

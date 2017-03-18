@@ -44,8 +44,10 @@ class Walker
         if (!is_callable(array($controller, $action_name))) {
             $action_name = 'index';
         }
-        $callable = array($controller, $action_name);
-        call_user_func($callable);
+        $action = array($controller, $action_name);
+        call_user_func(array($controller, 'before'));
+        call_user_func($action);
+        call_user_func(array($controller, 'after'));
     }
 
     public function dispatch(RequestInterface $request)

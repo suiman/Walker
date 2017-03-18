@@ -14,6 +14,11 @@ use App\Constant;
 
 class Home extends Base
 {
+    public function before()
+    {
+        parent::before();
+        echo Util\Str::withNL('hi');
+    }
 
     public function index()
     {
@@ -49,6 +54,12 @@ class Home extends Base
     public function error()
     {
         echo Util\Str::withNL(Constant\ErrorCode::URL_NO_EXIST);
+    }
+
+    public function after()
+    {
+        echo Util\Str::withNL('bye');
+        parent::after();
     }
 
 }
