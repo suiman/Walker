@@ -10,12 +10,19 @@ use Walker\Provider;
 
 class Walker
 {
-    protected $container;
+    private $container;
 
-    public function init()
+    public function init($container = null)
     {
-        $this->container = new Container();
+        if (!$container instanceof Container) {
+            $this->container = new Container();
+        }
         Provider\DefaultServices::register($this->container);
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
     }
 
     public function run()

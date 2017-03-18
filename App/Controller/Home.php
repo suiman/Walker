@@ -17,7 +17,7 @@ class Home extends Base
     public function before()
     {
         parent::before();
-        echo Util\Str::withNL('hi');
+        echo Util\Str::withNL('hi---', 2);
     }
 
     public function index()
@@ -27,7 +27,7 @@ class Home extends Base
 
     public function ping()
     {
-        echo Util\Str::withNL((string)$this->request->getUri());
+        print_r($this->request->getUri());
     }
 
 
@@ -58,7 +58,7 @@ class Home extends Base
 
     public function after()
     {
-        echo Util\Str::withNL('bye');
+        echo Util\Str::withNL('---bye');
         parent::after();
     }
 

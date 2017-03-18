@@ -17,15 +17,23 @@ class DefaultServices
 {
     public static function register(Container $container)
     {
-        $container['environment'] = function () {
-            return new Environment($_SERVER);
-        };
-        $container['request'] = function ($container) {
-            return new Request($container['environment']);
-        };
-        $container['response'] = function ($container) {
-            return new Response();
-        };
+        if (!isset($container['environment'])) {
+            $container['environment'] = function () {
+                return new Environment($_SERVER);
+            };
+        }
+
+        if (!isset($container['request'])) {
+            $container['request'] = function ($container) {
+                return new Request($container['environment']);
+            };
+        }
+
+        if (!isset($container['response'])) {
+            $container['response'] = function ($container) {
+                return new Response();
+            };
+        }
     }
 
 }
