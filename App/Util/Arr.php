@@ -1,12 +1,16 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: suiman
- * Date: 17/3/18
- * Time: 上午10:09
- */
+namespace App\Util;
+
 class Arr
 {
+    public static function get(array $arr, $key, $default = null)
+    {
+        if (isset($arr[$key])) {
+            return $arr[$key];
+        } else {
+            return $default;
+        }
+    }
 
 }
