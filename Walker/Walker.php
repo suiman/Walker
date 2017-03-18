@@ -4,29 +4,23 @@ namespace Walker;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Walker\Http\Environment;
-use Walker\Http\Request;
-use Walker\Http\Response;
+use Pimple\Container;
 use Walker\Interfaces\Controller;
+use Walker\Provider;
 
 class Walker
 {
-    protected $environment;
-
-    protected $request;
-
-    protected $response;
+    protected $container;
 
     public function init()
     {
-        $this->environment = new Environment($_SERVER);
-        $this->request = new Request($this->environment);
-        $this->response = new Response();
+        $this->container = new Container();
+        Provider\DefaultServices::register($this->container);
     }
 
     public function run()
     {
-        $this->process($this->request, $this->response);
+        $this->process($this->container['request'], $this->container['response']);
     }
 
     public function process(RequestInterface $request, ResponseInterface $response)
