@@ -33,22 +33,22 @@ class Walker
     {
         $result = $this->dispatch($request);
         if (count($result) < 2) {
-            $result = array('Base', 'index');
+            die("invalid url\n");
         }
         list($controller_name, $action_name) = $result;
         $controller_name = 'App\\Controller\\' . ucfirst($controller_name);
         $action_name = lcfirst($action_name);
         if (!class_exists($controller_name)) {
-            $controller_name = 'App\\Controller\\Base';
+            die("controller not exists\n");
         }
         $controller = new $controller_name($request, $response);
         if(!$controller instanceof Controller) {
             die("not instance of controller\n");
         }
-        if (!is_callable(array($controller, $action_name))) {
-            $action_name = 'index';
-        }
         $action = array($controller, $action_name);
+        if (!is_callable($action)) {
+            die("action not callable\n");
+        }
         call_user_func(array($controller, 'before'));
         call_user_func($action);
         call_user_func(array($controller, 'after'));
