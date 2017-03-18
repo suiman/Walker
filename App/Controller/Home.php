@@ -9,12 +9,20 @@
 namespace App\Controller;
 
 use App\Model;
+use App\Util;
+use App\Constant;
 
 class Home extends Base
 {
-    public function pong()
+
+    public function index()
     {
-        echo (string)$this->request->getUri() . "\n";
+        echo Util\Str::withNL('index from home');
+    }
+
+    public function ping()
+    {
+        echo Util\Str::withNL((string)$this->request->getUri());
     }
 
 
@@ -25,9 +33,22 @@ class Home extends Base
         print_r($user);
     }
 
-    public function index()
+    public function time()
     {
-        echo "from home, i am here\n";
+        $time = Util\Time::friendly(time() - 100000);
+        echo Util\Str::withNL($time);
+    }
+
+    public function where()
+    {
+        $distance = Util\Distance::fromCoordinate(22.9, 110, 23, 110.1);
+        $distance = Util\Distance::friendly($distance);
+        echo Util\Str::withNL($distance);
+    }
+
+    public function error()
+    {
+        echo Util\Str::withNL(Constant\ErrorCode::URL_NO_EXIST);
     }
 
 }

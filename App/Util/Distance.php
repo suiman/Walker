@@ -14,7 +14,7 @@ class Distance
     /**
      * 根据经纬度计算距离 其中A($lat1,$lng1)、B($lat2,$lng2)
      */
-    public static function getDistance($lat1, $lng1, $lat2, $lng2)
+    public static function fromCoordinate($lat1, $lng1, $lat2, $lng2)
     {
         //地球半径
         $R = 6378137;
@@ -37,7 +37,7 @@ class Distance
     /**
      * 得到一个友好显示的距离
      */
-    public static function conversion_of_units($distance = -1)
+    public static function friendly($distance = -1)
     {
         if ($distance < 0) {
             return '遥远的远方';

@@ -24,7 +24,7 @@ class Time
      * @param $ts
      * @return string
      */
-    public static function date_friendly($ts)
+    public static function friendly($ts)
     {
         if (empty($ts) || (int)$ts <= 0) {
             return '-';
