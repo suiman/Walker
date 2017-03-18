@@ -10,8 +10,9 @@ namespace App\Controller;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Walker\Interfaces;
 
-class Base implements ControllerInterface
+class Base implements Interfaces\Controller
 {
     protected $request;
 

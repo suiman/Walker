@@ -6,13 +6,19 @@
  * Time: 上午11:33
  */
 
-namespace App\Controller;
+namespace Walker\Interfaces;
 
 
-interface ControllerInterface
+interface Controller
 {
+    /**
+     * invoke before action
+     */
     public function before();
 
+    /**
+     * invoke after action
+     */
     public function after();
 
 }

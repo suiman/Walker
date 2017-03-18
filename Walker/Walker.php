@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Walker\Http\Environment;
 use Walker\Http\Request;
 use Walker\Http\Response;
+use Walker\Interfaces\Controller;
 
 class Walker
 {
@@ -41,6 +42,9 @@ class Walker
             $controller_name = 'App\\Controller\\Base';
         }
         $controller = new $controller_name($request, $response);
+        if(!$controller instanceof Controller) {
+            die("not instance of controller\n");
+        }
         if (!is_callable(array($controller, $action_name))) {
             $action_name = 'index';
         }
