@@ -11,9 +11,12 @@ namespace App\Controller;
 use App\Model;
 use App\Util;
 use App\Constant;
+use App\Traits;
 
 class Home extends Base
 {
+    use Traits\Controller;
+
     public function before()
     {
         parent::before();
@@ -58,8 +61,17 @@ class Home extends Base
 
     public function after()
     {
-        echo Util\Str::withNL('---bye');
+//        echo Util\Str::withNL('---bye');
         parent::after();
+    }
+
+    public function json()
+    {
+        $data = array(
+            'time' => date('Y-m-d H:i:s'),
+            'weather' => 'rainy'
+        );
+        $this->responseJson(Constant\ErrorCode::NO_ERROR, $data);
     }
 
 }
