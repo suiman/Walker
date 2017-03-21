@@ -11,7 +11,6 @@ $callable = function ($request, $response, $next) use ($container) {
     echo "first middleware before\n";
     $next($request, $response);
     echo "first middleware after\n";
-//    var_dump($container['environment']);
     return $response;
 };
 $walker->add($callable);
