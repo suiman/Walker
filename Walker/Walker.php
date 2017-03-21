@@ -7,9 +7,12 @@ use Psr\Http\Message\ResponseInterface;
 use Pimple\Container;
 use Walker\Interfaces\Controller;
 use Walker\Provider;
+use Walker\Traits;
 
 class Walker
 {
+    use Traits\Middleware;
+
     private $container;
 
     public function init($container = null)
@@ -18,6 +21,11 @@ class Walker
             $this->container = new Container();
         }
         Provider\DefaultServices::register($this->container);
+    }
+
+    public function add($callable)
+    {
+        $this->addMiddleware($callable);
     }
 
     public function getContainer()
@@ -31,6 +39,18 @@ class Walker
     }
 
     public function process(RequestInterface $request, ResponseInterface $response)
+    {
+        $this->callMiddleware($request, $response);
+    }
+
+    public function dispatch(RequestInterface $request)
+    {
+        $uri = $request->getUri();
+        $path = $uri->getPath();
+        return explode('/', ltrim($path, '/'));
+    }
+
+    public function __invoke(RequestInterface $request, ResponseInterface $response)
     {
         $result = $this->dispatch($request);
         if (count($result) < 2) {
@@ -50,16 +70,7 @@ class Walker
         if (!is_callable($action)) {
             die("action not callable\n");
         }
-        call_user_func(array($controller, 'before'));
         call_user_func($action);
-        call_user_func(array($controller, 'after'));
-    }
-
-    public function dispatch(RequestInterface $request)
-    {
-        $uri = $request->getUri();
-        $path = $uri->getPath();
-        return explode('/', ltrim($path, '/'));
     }
 
 
