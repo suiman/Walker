@@ -5,22 +5,17 @@ date_default_timezone_set('Asia/Shanghai');
 
 $walker = new Walker\Walker();
 $walker->init();
-$container = $walker->getContainer();
 
-$callable = function ($request, $response, $next) use ($container) {
-    echo "first middleware before\n";
+$walker->add(function ($request, $response, $next) {
+    echo "before\n";
     $next($request, $response);
-    echo "first middleware after\n";
+    echo "after\n";
     return $response;
-};
-$walker->add($callable);
-$walker->add(
-    function ($request, $response, $next) {
-        echo "second middleware before\n";
-        $next($request, $response);
-        echo "second middleware after\n";
-        return $response;
-    }
-);
+});
+
+$walker->map('/home/error', function ($request, $response) {
+    $controller = new \App\Controller\Home($request, $response);
+    $controller->error();
+});
 
 $walker->run();

@@ -15,6 +15,8 @@ class Walker
 
     private $container;
 
+    private $routeMap;
+
     public function init($container = null)
     {
         if (!$container instanceof Container) {
@@ -26,6 +28,11 @@ class Walker
     public function add($callable)
     {
         $this->addMiddleware($callable);
+    }
+
+    public function map($pattern, $callable)
+    {
+        $this->routeMap[$pattern] = $callable;
     }
 
     public function getContainer()
@@ -52,22 +59,13 @@ class Walker
 
     public function __invoke(RequestInterface $request, ResponseInterface $response)
     {
-        $result = $this->dispatch($request);
-        if (count($result) < 2) {
-            die("invalid url\n");
+        $path = $request->getUri()->getPath();
+        if (isset($this->routeMap[$path])) {
+            $callable = $this->routeMap[$path];
+            call_user_func($callable, $request, $response);
+        } else {
+            die("url invalid\n");
         }
-        list($controller_name, $action_name) = $result;
-        $controller_name = 'App\\Controller\\' . ucfirst($controller_name);
-        $action_name = lcfirst($action_name);
-        if (!class_exists($controller_name)) {
-            die("controller not exists\n");
-        }
-        $controller = new $controller_name($request, $response);
-        $action = array($controller, $action_name);
-        if (!is_callable($action)) {
-            die("action not callable\n");
-        }
-        call_user_func($action);
     }
 
 
