@@ -12,7 +12,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Walker\Interfaces;
 
-class Base implements Interfaces\Controller
+class Base
 {
     protected $request;
 

@@ -63,9 +63,6 @@ class Walker
             die("controller not exists\n");
         }
         $controller = new $controller_name($request, $response);
-        if(!$controller instanceof Controller) {
-            die("not instance of controller\n");
-        }
         $action = array($controller, $action_name);
         if (!is_callable($action)) {
             die("action not callable\n");
