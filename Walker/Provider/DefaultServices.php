@@ -12,6 +12,7 @@ use Pimple\Container;
 use Walker\Http\Environment;
 use Walker\Http\Request;
 use Walker\Http\Response;
+use Walker\Router;
 
 class DefaultServices
 {
@@ -34,6 +35,13 @@ class DefaultServices
                 return new Response();
             };
         }
+
+        if (!isset($container['router'])) {
+            $container['router'] = function ($container) {
+                return new Router();
+            };
+        }
+
     }
 
 }

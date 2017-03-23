@@ -5,7 +5,6 @@ namespace Walker;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Pimple\Container;
-use Walker\Interfaces\Controller;
 use Walker\Provider;
 use Walker\Traits;
 
@@ -14,8 +13,6 @@ class Walker
     use Traits\Middleware;
 
     private $container;
-
-    private $routeMap;
 
     public function init($container = null)
     {
@@ -32,7 +29,7 @@ class Walker
 
     public function map($pattern, $callable)
     {
-        $this->routeMap[$pattern] = $callable;
+        $this->container['router']->map($pattern, $callable);
     }
 
     public function getContainer()
@@ -50,22 +47,11 @@ class Walker
         $this->callMiddleware($request, $response);
     }
 
-    public function dispatch(RequestInterface $request)
-    {
-        $uri = $request->getUri();
-        $path = $uri->getPath();
-        return explode('/', ltrim($path, '/'));
-    }
-
     public function __invoke(RequestInterface $request, ResponseInterface $response)
     {
         $path = $request->getUri()->getPath();
-        if (isset($this->routeMap[$path])) {
-            $callable = $this->routeMap[$path];
-            call_user_func($callable, $request, $response);
-        } else {
-            die("url invalid\n");
-        }
+        list($handler, $params) = $this->container['router']->dispatch($path);
+        call_user_func($handler, $request, $response, $params);
     }
 
 

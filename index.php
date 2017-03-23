@@ -13,9 +13,10 @@ $walker->add(function ($request, $response, $next) {
     return $response;
 });
 
-$walker->map('/home/error', function ($request, $response) {
-    $controller = new \App\Controller\Home($request, $response);
-    $controller->error();
+$walker->map('/{ctrl}/{act}', function ($request, $response, $params) {
+    $controller = 'App\\Controller\\'.ucfirst($params['ctrl']);
+    $action = $params['act'];
+    call_user_func(array(new $controller($request, $response), $action), $params);
 });
 
 $walker->run();
