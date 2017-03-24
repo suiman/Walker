@@ -16,7 +16,12 @@ $walker->add(function ($request, $response, $next) {
 $walker->map('/{ctrl}/{act}', function ($request, $response, $params) {
     $controller = 'App\\Controller\\'.ucfirst($params['ctrl']);
     $action = $params['act'];
-    call_user_func(array(new $controller($request, $response), $action), $params);
+    $callable = array(new $controller($request, $response), $action);
+    if (is_callable($callable)) {
+        call_user_func($callable, $params);
+    } else {
+        die("not callable\n");
+    }
 });
 
 $walker->run();

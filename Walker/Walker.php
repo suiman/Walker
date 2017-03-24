@@ -18,6 +18,8 @@ class Walker
     {
         if (!$container instanceof Container) {
             $this->container = new Container();
+        } else {
+            $this->container = $container;
         }
         Provider\DefaultServices::register($this->container);
     }
@@ -42,7 +44,7 @@ class Walker
         $this->process($this->container['request'], $this->container['response']);
     }
 
-    public function process(RequestInterface $request, ResponseInterface $response)
+    private function process(RequestInterface $request, ResponseInterface $response)
     {
         $this->callMiddleware($request, $response);
     }

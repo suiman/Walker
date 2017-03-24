@@ -17,12 +17,6 @@ class Home extends Base
 {
     use Traits\Controller;
 
-    public function before()
-    {
-        parent::before();
-        echo Util\Str::withNL('hi---', 2);
-    }
-
     public function index()
     {
         echo Util\Str::withNL('index from home');
@@ -57,12 +51,6 @@ class Home extends Base
     public function error()
     {
         echo Util\Str::withNL(Constant\ErrorCode::URL_NO_EXIST);
-    }
-
-    public function after()
-    {
-//        echo Util\Str::withNL('---bye');
-        parent::after();
     }
 
     public function json()
