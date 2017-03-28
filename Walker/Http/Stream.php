@@ -12,16 +12,15 @@ use Psr\Http\Message\StreamInterface;
 
 class Stream implements StreamInterface
 {
+    protected static $modes = [
+        'readable' => ['r', 'r+', 'w+', 'a+', 'x+', 'c+'],
+        'writable' => ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+']
+    ];
     protected $stream;
-
     protected $seekable;
-
     protected $writable;
-
     protected $readable;
-
     protected $size;
-
     protected $meta;
 
     public function __construct($newStream)
@@ -36,12 +35,17 @@ class Stream implements StreamInterface
 
     public function __toString()
     {
-        // TODO: Implement __toString() method.
+        if (is_resource($this->stream)) {
+            return $this->getContents();
+        } else {
+            return '';
+        }
     }
 
     public function close()
     {
-        // TODO: Implement close() method.
+        fclose($this->stream);
+        $this->detach();
     }
 
     public function detach()
@@ -66,7 +70,7 @@ class Stream implements StreamInterface
     public function tell()
     {
         $position = null;
-        if(is_resource($this->stream)) {
+        if (is_resource($this->stream)) {
             $position = ftell($this->stream);
         }
         return $position;
@@ -90,37 +94,72 @@ class Stream implements StreamInterface
 
     public function seek($offset, $whence = SEEK_SET)
     {
-        // TODO: Implement seek() method.
+        if ($this->isSeekable()) {
+            fseek($this->stream, $offset, $whence);
+        }
     }
 
     public function rewind()
     {
-        // TODO: Implement rewind() method.
+        if ($this->isSeekable()) {
+            rewind($this->stream);
+        }
     }
 
     public function isWritable()
     {
-        // TODO: Implement isWritable() method.
+        if (is_null($this->writable)) {
+            $this->writable = false;
+            if (is_resource($this->stream)) {
+                $thisMode = $this->getMetadata('mode');
+                foreach (self::$modes['writable'] as $mode) {
+                    if (strpos($thisMode, $mode) === 0) {
+                        $this->writable = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $this->writable;
     }
 
     public function write($string)
     {
-        // TODO: Implement write() method.
+        if ($this->isWritable()) {
+            $this->size = null;
+            return fwrite($this->stream, $string);
+        }
     }
 
     public function isReadable()
     {
-        // TODO: Implement isReadable() method.
+        if (is_null($this->readable)) {
+            $this->readable = false;
+            if (is_resource($this->stream)) {
+                $thisMode = $this->getMetadata('mode');
+                foreach (self::$modes['readable'] as $mode) {
+                    if (strpos($thisMode, $mode) === 0) {
+                        $this->readable = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $this->readable;
     }
 
     public function read($length)
     {
-        // TODO: Implement read() method.
+        if ($this->isReadable()) {
+            return fread($this->stream, $length);
+        }
     }
 
     public function getContents()
     {
-        // TODO: Implement getContents() method.
+        if ($this->isReadable()) {
+            return stream_get_contents($this->stream);
+        }
     }
 
     public function getMetadata($key = null)
