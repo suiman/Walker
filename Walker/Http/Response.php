@@ -3,10 +3,15 @@
 namespace Walker\Http;
 
 use Psr\Http\Message\ResponseInterface;
-use Walker\Http\Message;
 
 class Response extends Message implements ResponseInterface
 {
+    public function __construct()
+    {
+        $stream = fopen('php://temp', 'r+');
+        $this->body = new ResponseBody($stream);
+    }
+
     public function getStatusCode()
     {
         // TODO: Implement getStatusCode() method.
@@ -20,6 +25,12 @@ class Response extends Message implements ResponseInterface
     public function getReasonPhrase()
     {
         // TODO: Implement getReasonPhrase() method.
+    }
+
+    public function write($data)
+    {
+        $this->getBody()->write($data);
+        return $this;
     }
 
 }

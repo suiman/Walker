@@ -13,8 +13,14 @@ use Psr\Http\Message\ResponseInterface;
 
 class Base
 {
+    /**
+     * @var RequestInterface
+     */
     protected $request;
 
+    /**
+     * @var ResponseInterface
+     */
     protected $response;
 
     public function __construct(RequestInterface $request, ResponseInterface $response)

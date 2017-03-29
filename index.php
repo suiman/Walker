@@ -7,9 +7,9 @@ $walker = new Walker\Walker();
 $walker->init();
 
 $walker->add(function ($request, $response, $next) {
-    echo "before\n";
+    $response->getBody()->write("before\n");
     $next($request, $response);
-    echo "after\n";
+    $response->getBody()->write("\nafter\n");
     return $response;
 });
 

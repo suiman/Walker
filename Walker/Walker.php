@@ -41,19 +41,30 @@ class Walker
 
     public function run()
     {
-        $this->process($this->container['request'], $this->container['response']);
+        $response = $this->process($this->container['request'], $this->container['response']);
+        $this->finish($response);
     }
 
     private function process(RequestInterface $request, ResponseInterface $response)
     {
-        $this->callMiddleware($request, $response);
+        $response = $this->callMiddleware($request, $response);
+        return $response;
     }
 
     public function __invoke(RequestInterface $request, ResponseInterface $response)
     {
         $path = $request->getUri()->getPath();
         list($handler, $params) = $this->container['router']->dispatch($path);
-        call_user_func($handler, $request, $response, $params);
+        $response = call_user_func($handler, $request, $response, $params);
+        return $response;
+    }
+
+    public function finish(ResponseInterface $response)
+    {
+        $body = $response->getBody();
+        $body->rewind();
+        $data = $body->read($body->getSize());
+        echo $data;
     }
 
 

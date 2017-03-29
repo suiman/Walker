@@ -17,7 +17,7 @@ trait Controller
             'code' => (int)$code,
             'json' => $data
         );
-        echo json_encode($ret);
+        $this->response->getBody()->write(json_encode($ret));
     }
 
 }

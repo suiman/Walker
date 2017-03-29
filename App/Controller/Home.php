@@ -19,38 +19,30 @@ class Home extends Base
 
     public function index()
     {
-        echo Util\Str::withNL('index from home');
+        $this->response->getBody()->write('index from home');
     }
 
     public function ping()
     {
-        print_r($this->request->getUri());
-    }
-
-
-    public function user()
-    {
-        $userMod = new Model\User();
-        $user = $userMod->getUser();
-        print_r($user);
+        $this->response->getBody()->write($this->request->getUri());
     }
 
     public function time()
     {
         $time = Util\Time::friendly(time() - 100000);
-        echo Util\Str::withNL($time);
+        $this->response->getBody()->write($time);
     }
 
     public function where()
     {
         $distance = Util\Distance::fromCoordinate(22.9, 110, 23, 110.1);
         $distance = Util\Distance::friendly($distance);
-        echo Util\Str::withNL($distance);
+        $this->response->getBody()->write(Util\Str::withNL($distance));
     }
 
     public function error()
     {
-        echo Util\Str::withNL(Constant\ErrorCode::URL_NO_EXIST);
+        $this->response->getBody()->write(Util\Str::withNL(Constant\ErrorCode::URL_NO_EXIST));
     }
 
     public function json()
