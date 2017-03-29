@@ -26,11 +26,4 @@ class Response extends Message implements ResponseInterface
     {
         // TODO: Implement getReasonPhrase() method.
     }
-
-    public function write($data)
-    {
-        $this->getBody()->write($data);
-        return $this;
-    }
-
 }
