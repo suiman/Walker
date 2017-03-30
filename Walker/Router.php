@@ -11,6 +11,9 @@ namespace Walker;
 use FastRoute;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use Walker\Exception\NotFoundException;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class Router
 {
@@ -21,7 +24,7 @@ class Router
         $this->routeMap[$pattern] = array('GET', $pattern, $callable);
     }
 
-    public function dispatch($uri)
+    public function dispatch($uri, ServerRequestInterface $request, ResponseInterface $response)
     {
         $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $collector) {
             foreach ($this->routeMap as $route) {
@@ -31,7 +34,7 @@ class Router
         $routeInfo = $dispatcher->dispatch('GET', $uri);
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                die("uri not match\n");
+                throw new NotFoundException($request, $response);
             case Dispatcher::METHOD_NOT_ALLOWED:
                 die("method not allowed\n");
             case Dispatcher::FOUND:

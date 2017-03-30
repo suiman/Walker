@@ -8,7 +8,7 @@
 
 namespace Walker\Traits;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 trait Middleware
@@ -27,7 +27,7 @@ trait Middleware
         }
         $next = $this->stack->top();
         $this->stack[] = function (
-            RequestInterface $request,
+            ServerRequestInterface $request,
             ResponseInterface $response
         ) use (
             $callable,
@@ -47,7 +47,7 @@ trait Middleware
     }
 
 
-    public function callMiddleware(RequestInterface $request, ResponseInterface $response)
+    public function callMiddleware(ServerRequestInterface $request, ResponseInterface $response)
     {
         if (is_null($this->stack)) {
             $this->initMiddleware();

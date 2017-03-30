@@ -2,11 +2,12 @@
 
 namespace Walker;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Pimple\Container;
 use Walker\Provider;
 use Walker\Traits;
+use Walker\Exception\NotFoundException;
 
 class Walker
 {
@@ -45,17 +46,24 @@ class Walker
         $this->finish($response);
     }
 
-    private function process(RequestInterface $request, ResponseInterface $response)
+    private function process(ServerRequestInterface $request, ResponseInterface $response)
     {
         $response = $this->callMiddleware($request, $response);
         return $response;
     }
 
-    public function __invoke(RequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $path = $request->getUri()->getPath();
-        list($handler, $params) = $this->container['router']->dispatch($path);
-        $response = call_user_func($handler, $request, $response, $params);
+        try {
+            list($handler, $params) = $this->container['router']->dispatch($path, $request, $response);
+            $response = call_user_func($handler, $request, $response, $params);
+        } catch (\Exception $e) {
+            if ($e instanceof NotFoundException) {
+                $response = $e->getResponse();
+                $response->getBody()->write("404 NOT FOUND\n");
+            }
+        }
         return $response;
     }
 

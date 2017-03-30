@@ -9,7 +9,7 @@
 namespace Walker\Exception;
 
 
-class NotFoundExcetion extends WalkerException
+class NotFoundException extends WalkerException
 {
 
 }
